@@ -1,0 +1,11 @@
+{
+  "name": "lets-get-faded-247",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "reminders": "node scripts/reminders.mjs",
+    "test": "node --test"
+  }
+}

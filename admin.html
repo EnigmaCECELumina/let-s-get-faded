@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0c10" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Jay's chair — Let's Get Faded Admin</title>
+    <link rel="stylesheet" href="/admin.css" />
+    <script src="/admin.js" defer></script>
+  </head>
+  <body>
+    <main class="admin-shell">
+      <header class="admin-header">
+        <a class="admin-brand" href="/"><span>LGF<span class="brand-dot">.</span></span><span>JAY'S CHAIR <i>HAMILTON, ON</i></span></a>
+        <div class="header-actions"><span class="secure-label"><i></i> PRIVATE STUDIO</span><button id="logout-button" class="logout-button" type="button" hidden>Sign out ↗</button></div>
+      </header>
+
+      <section class="login-view" id="login-view">
+        <div class="login-copy">
+          <span class="admin-eyebrow"><i></i> OWNER ACCESS · JAY</span>
+          <h1>Your chair.<br /><span>Your day.</span></h1>
+          <p>Your clients, your notes, your schedule. All in one place, wherever you are.</p>
+          <div class="login-coordinate">LET'S GET FADED 24/7 CUTS <span>·</span> HAMILTON, ON</div>
+        </div>
+        <form class="pin-card" id="login-form">
+          <span class="pin-index">JAY'S PRIVATE DASHBOARD</span>
+          <h2>Good to see you.</h2>
+          <p>Enter your studio PIN to pick up where you left off.</p>
+          <label for="admin-pin">YOUR ACCESS PIN</label>
+          <input id="admin-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="••••" required />
+          <button class="primary-button" type="submit">Unlock your chair <span>↗</span></button>
+          <div class="login-status" id="login-status" role="status" aria-live="polite"></div>
+          <span class="pin-footnote">Private to Jay · Sessions expire after 8 hours</span>
+        </form>
+      </section>
+
+      <section class="dashboard" id="dashboard" hidden>
+        <div class="dashboard-heading">
+          <div><p class="admin-eyebrow"><i></i> JAY'S STUDIO · HAMILTON</p><h1>Good day,<br /><span>Jay.</span></h1></div>
+          <label class="date-picker"><span>ON THE BOOKS</span><input id="schedule-date" type="date" /></label>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><span>CHAIR TODAY</span><strong id="appointment-count">0</strong><small>appointments</small></div>
+          <div class="stat-card"><span>NEXT UP</span><strong class="stat-next" id="next-appointment">—</strong><small id="next-client">No upcoming chair</small></div>
+          <div class="stat-card"><span>STUDIO HOURS</span><strong>24<span>/7</span></strong><small>regular + after-hours VIP</small></div>
+        </div>
+        <section class="schedule-section">
+          <div class="section-topline"><div><p class="admin-eyebrow">01 / YOUR DAILY LINEUP</p><h2>The chair list<span>.</span></h2></div><button class="refresh-button" id="refresh-button" type="button">Refresh <span>↻</span></button></div>
+          <div class="schedule-list" id="schedule-list"></div>
+          <div class="empty-state" id="schedule-empty" hidden><span class="empty-symbol">✳</span><strong>Room to breathe.</strong><p>No bookings on this date yet. Your chair's still yours.</p></div>
+        </section>
+        <section class="directory-section">
+          <div class="section-topline"><div><p class="admin-eyebrow">02 / THE REGULARS</p><h2>Client book<span>.</span></h2></div></div>
+          <label class="search-field"><span aria-hidden="true">⌕</span><input id="client-search" type="search" placeholder="Find a client by name or phone..." autocomplete="off" /><kbd>SEARCH</kbd></label>
+          <div class="client-results" id="client-results"></div>
+          <article class="client-detail" id="client-detail" hidden></article>
+        </section>
+        <div class="admin-toast" id="admin-toast" role="status" aria-live="polite"></div>
+        <footer class="admin-footer"><span>LET'S GET FADED 24/7 CUTS</span><span>YOUR CHAIR. YOUR CALL. <i>✳</i></span><a href="/">BACK TO THE STUDIO ↗</a></footer>
+      </section>
+    </main>
+  </body>
+</html>
