@@ -7,5 +7,8 @@
     "start": "node server.mjs",
     "reminders": "node scripts/reminders.mjs",
     "test": "node --test"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
   }
 }
