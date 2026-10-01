@@ -24,6 +24,8 @@ const mimeTypes = {
   ".webp": "image/webp",
   ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
+  ".mjs": "application/javascript; charset=utf-8",
+  ".json": "application/manifest+json; charset=utf-8",
 };
 const publicFiles = new Map([
   ["/", "index.html"],
@@ -39,6 +41,10 @@ const publicFiles = new Map([
   ["/sitemap.xml", "public/sitemap.xml"],
   ["/logo.jpg", "public/logo.jpg"],
   ["/public/logo.jpg", "public/logo.jpg"],
+  ["/manifest.json", "public/manifest.json"],
+  ["/admin-manifest.json", "public/admin-manifest.json"],
+  ["/sw.js", "public/sw.js"],
+  ["/main-sw.js", "public/main-sw.js"],
 ]);
 
 await loadEnvironment();
@@ -542,11 +548,27 @@ const server = createServer(async (request, response) => {
     }
 
     const contents = await readFile(resolvedPath);
-    response.writeHead(200, {
-      "Content-Type": mimeTypes[extname(resolvedPath)] || "application/octet-stream",
+    const extension = extname(resolvedPath);
+    const contentType = mimeTypes[extension] || "application/octet-stream";
+
+    const headers = {
+      "Content-Type": contentType,
       "X-Content-Type-Options": "nosniff",
-      "Cache-Control": resolvedPath.endsWith("index.html") || resolvedPath.endsWith("admin.html") ? "no-cache" : "public, max-age=86400",
-    });
+    };
+
+    // Service Worker and Manifest need specific headers
+    if (url.pathname === "/sw.js" || url.pathname === "/main-sw.js") {
+      headers["Service-Worker-Allowed"] = "/";
+      headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+    } else if (url.pathname === "/manifest.json" || url.pathname === "/admin-manifest.json") {
+      headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+    } else if (resolvedPath.endsWith("index.html") || resolvedPath.endsWith("admin.html")) {
+      headers["Cache-Control"] = "no-cache";
+    } else {
+      headers["Cache-Control"] = "public, max-age=86400";
+    }
+
+    response.writeHead(200, headers);
     response.end(contents);
   } catch (error) {
     if (error instanceof SyntaxError) {

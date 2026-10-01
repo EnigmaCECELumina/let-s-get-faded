@@ -226,6 +226,13 @@ if (form) {
       const savedAppointment = result.appointment;
       const savedDate = new Date(`${savedAppointment.date}T12:00:00`);
       setStatus(`Booking request received, ${profile.name.split(/\s+/)[0]}! ${formatPrice(savedAppointment.price)}${savedAppointment.bookingTime === "vip" ? " VIP" : ""} · ${savedDate.toLocaleDateString("en-CA", { month: "long", day: "numeric" })} at ${savedAppointment.time}. Jay will text you shortly with address details.`);
+
+      // Show social share section for first-time clients
+      if (firstCut) {
+        const shareSection = document.querySelector("#share-section");
+        if (shareSection) shareSection.hidden = false;
+      }
+
       form.reset();
       if (form.elements.firstCut) {
         form.elements.firstCut.checked =
@@ -291,3 +298,77 @@ if (navToggle && nav) {
 setupCompareSliders();
 calculatePrice();
 renderLoyalty();
+
+// Social Share Functionality
+const shareButtons = document.querySelectorAll(".share-button");
+shareButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const platform = button.dataset.platform;
+    const shareUrl = "https://letsgetfaded.ca";
+    const shareText = "Just booked my FREE first cut with Jay at Let's Get Faded 24/7 Cuts in Hamilton! 🎯 Precision cuts anytime, 24/7. @letsgetfaded #HamiltonBarber #LetsGetFaded";
+
+    switch (platform) {
+      case "instagram":
+        // Instagram doesn't support direct URL sharing, open app
+        window.open("https://instagram.com/letsgetfaded", "_blank");
+        break;
+      case "whatsapp":
+        window.open(`https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`, "_blank");
+        break;
+      case "facebook":
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`, "_blank");
+        break;
+      case "copy":
+        navigator.clipboard.writeText(`${shareText} ${shareUrl}`).then(() => {
+          const originalText = button.innerHTML;
+          button.innerHTML = '<span class="share-icon">✓</span><span>Copied!</span>';
+          setTimeout(() => {
+            button.innerHTML = originalText;
+          }, 2000);
+        }).catch(() => {
+          alert("Could not copy link. Please copy manually: " + shareUrl);
+        });
+        break;
+    }
+  });
+});
+
+// Legal Modal Functionality
+const modalTriggers = document.querySelectorAll(".footer-modal-trigger");
+const modals = document.querySelectorAll(".legal-modal");
+
+modalTriggers.forEach((trigger) => {
+  trigger.addEventListener("click", () => {
+    const modalId = trigger.getAttribute("data-modal");
+    const modal = document.getElementById(`${modalId}-modal`);
+    if (modal) {
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      modal.querySelector(".modal-close").focus();
+    }
+  });
+});
+
+modals.forEach((modal) => {
+  const closeButtons = modal.querySelectorAll("[data-close]");
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    });
+  });
+
+  modal.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal.querySelector(".modal-backdrop")) {
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+  });
+});

@@ -126,13 +126,20 @@ test("protects admin data and confirms SEO and admin routes", async () => {
   const adminHtml = await adminPage.text();
   assert.match(adminHtml, /JAY'S PRIVATE DASHBOARD/);
   const publicPage = await fetch(`${baseUrl}/`);
-  assert.match(await publicPage.text(), /"@type": "BarberShop"/);
+  const publicHtml = await publicPage.text();
+  const schemaMatch = publicHtml.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
+  assert.ok(schemaMatch, "homepage should expose LocalBusiness JSON-LD");
+  assert.ok(JSON.parse(schemaMatch[1])["@type"].includes("BarberShop"));
+  for (const assetPath of ["/manifest.json", "/admin-manifest.json", "/main-sw.js", "/sw.js"]) {
+    const asset = await fetch(`${baseUrl}${assetPath}`);
+    assert.equal(asset.status, 200, `${assetPath} should be available`);
+  }
   const robots = await fetch(`${baseUrl}/robots.txt`);
   assert.equal(robots.status, 200);
   assert.match(await robots.text(), /Disallow: \/admin/);
   const sitemap = await fetch(`${baseUrl}/sitemap.xml`);
   assert.equal(sitemap.status, 200);
-  assert.match(await sitemap.text(), /https:\/\/letsgetfaded\.ca\/book/);
+  assert.match(await sitemap.text(), /https:\/\/letsgetfaded\.ca\/#book/);
   const bookingRoute = await fetch(`${baseUrl}/book`, { redirect: "manual" });
   assert.equal(bookingRoute.status, 302);
   assert.equal(bookingRoute.headers.get("location"), "/#book");

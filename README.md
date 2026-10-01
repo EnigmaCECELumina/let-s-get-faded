@@ -13,6 +13,10 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) for client bookings or [http://localhost:3000/admin](http://localhost:3000/admin) for Jay's dashboard. `.env` and `data/clients.json` are local-only and excluded from version control. If the data file does not exist yet, the server creates an empty client store on the first booking.
 
+## Installable apps
+
+The public booking site and Jay's admin dashboard provide separate installable app manifests. On supported browsers, use the browser's install option; Jay's dashboard also shows an install button when the browser offers an install prompt. Production installs require HTTPS. Service workers cache only the public and admin app shells and static assets; appointment and client API requests are never cached and still require a connection.
+
 ## Booking, schedule, and loyalty
 
 Clients request an actual date and time. Regular appointments are 9:00 AM–8:59 PM; after-hours VIP requests are 9:00 PM–8:59 AM and add $20 to the service price. The API validates the time window and determines first-visit eligibility on the server, so a browser cannot claim the free welcome cut repeatedly.

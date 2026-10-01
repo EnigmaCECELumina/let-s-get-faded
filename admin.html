@@ -5,9 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b0c10" />
     <meta name="robots" content="noindex, nofollow" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Jay's Chair" />
     <title>Jay's chair — Let's Get Faded Admin</title>
+    <link rel="manifest" href="/admin-manifest.json" />
+    <link rel="apple-touch-icon" href="/logo.jpg" />
     <link rel="stylesheet" href="/admin.css" />
     <script src="/admin.js" defer></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(err => {
+          console.log('Service Worker registration failed:', err);
+        });
+      }
+    </script>
   </head>
   <body>
     <main class="admin-shell">
@@ -57,7 +69,7 @@
           <article class="client-detail" id="client-detail" hidden></article>
         </section>
         <div class="admin-toast" id="admin-toast" role="status" aria-live="polite"></div>
-        <footer class="admin-footer"><span>LET'S GET FADED 24/7 CUTS</span><span>YOUR CHAIR. YOUR CALL. <i>✳</i></span><a href="/">BACK TO THE STUDIO ↗</a></footer>
+        <footer class="admin-footer"><span>LET'S GET FADED 24/7 CUTS</span><span>YOUR CHAIR. YOUR CALL. <i>✳</i></span><a href="mailto:letsgetfadedsteelcity@gmail.com">letsgetfadedsteelcity@gmail.com</a><a href="/">BACK TO THE STUDIO ↗</a></footer>
       </section>
     </main>
   </body>

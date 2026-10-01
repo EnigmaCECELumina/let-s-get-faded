@@ -12,6 +12,43 @@ const toast = document.querySelector("#admin-toast");
 const logoutButton = document.querySelector("#logout-button");
 let toastTimer;
 let searchTimer;
+let deferredPrompt;
+
+// PWA Install Prompt
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+
+  // Create install button if it doesn't exist
+  if (!document.querySelector("#install-app-button")) {
+    const installButton = document.createElement("button");
+    installButton.id = "install-app-button";
+    installButton.className = "install-prompt";
+    installButton.innerHTML = `<span>📱</span> Install Jay's Chair App`;
+    installButton.type = "button";
+
+    const headerActions = document.querySelector(".header-actions");
+    if (headerActions) {
+      headerActions.insertBefore(installButton, headerActions.firstChild);
+    }
+
+    installButton.addEventListener("click", async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installButton.remove();
+      }
+    });
+  }
+});
+
+// Hide install button if app is already installed
+window.addEventListener("appinstalled", () => {
+  const installButton = document.querySelector("#install-app-button");
+  if (installButton) installButton.remove();
+  deferredPrompt = null;
+});
 
 function localToday() {
   return new Intl.DateTimeFormat("en-CA", {

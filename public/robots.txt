@@ -1,5 +1,15 @@
+# Let's Get Faded 24/7 Cuts - Robots.txt
+# Allow all major search engines to index public content
 User-agent: *
 Allow: /
-Disallow: /admin
 
+# Block admin dashboard from search engines
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /api/
+
+# Sitemap location for Google, Bing, DuckDuckGo, Yahoo
 Sitemap: https://letsgetfaded.ca/sitemap.xml
+
+# Crawl-delay to respect server resources
+Crawl-delay: 1

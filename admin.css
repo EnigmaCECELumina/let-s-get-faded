@@ -19,6 +19,9 @@ a{color:inherit;text-decoration:none}
 .secure-label{color:#969ba6;font-size:8px;letter-spacing:1px}
 .secure-label i,.admin-eyebrow i{width:6px;height:6px;display:inline-block;margin-right:7px;border-radius:50%;background:#81d5a1;box-shadow:0 0 9px rgba(129,213,161,.5)}
 .logout-button{padding:9px 11px;border:1px solid var(--line);background:transparent;color:#c2c4cc;font-size:9px}
+.install-prompt{padding:8px 12px;border:1px solid rgba(84,169,255,.45);background:rgba(84,169,255,.15);color:#b7dcff;font-size:8px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:all .2s ease}
+.install-prompt:hover{background:rgba(84,169,255,.25);border-color:var(--blue);box-shadow:0 0 15px rgba(84,169,255,.25)}
+.install-prompt span{font-size:11px}
 .login-view{min-height:calc(100vh - 76px);display:grid;grid-template-columns:1fr .75fr;align-items:center;gap:75px}
 .login-copy{padding-bottom:30px}
 .admin-eyebrow{color:var(--blue);font-size:9px;letter-spacing:1.5px}

@@ -89,10 +89,12 @@ export async function sendFollowUp(client) {
     ? "Your FREE 7th cut is ready. Book it whenever you're ready!"
     : `You're ${6 - progress} cut${6 - progress === 1 ? "" : "s"} away from your FREE 7th cut.`;
   const bookingLink = process.env.BOOKING_LINK || "http://localhost:3000/#book";
-  const sms = `Thanks for coming in, ${firstName}! Jay from Let's Get Faded here. ${loyalty} Book your next chair: ${bookingLink}`;
+  const googleReviewLink = "https://g.page/r/letsgfaded/review"; // Replace with actual Google Business Profile review link
+  const sms = `Thanks for coming in, ${firstName}! Jay from Let's Get Faded here. ${loyalty} Book your next chair: ${bookingLink} · Leave a review: ${googleReviewLink}`;
   const subject = "Thanks for coming through — stay sharp";
   const safeName = escapeHtml(firstName);
   const safeBookingLink = escapeHtml(bookingLink);
-  const html = `<div style="margin:0;background:#0b0c10;padding:36px 16px;font-family:Arial,sans-serif;color:#f5f6f8"><div style="max-width:540px;margin:auto;border:1px solid #30333b;padding:32px;background:#121419"><p style="color:#52a8ff;letter-spacing:3px;font-size:11px;font-weight:bold">LET'S GET FADED · HAMILTON</p><h1 style="font-size:26px;margin:20px 0 12px">Good seeing you, ${safeName}.</h1><p style="color:#c2c5ce;line-height:1.7">Thanks for trusting Jay with the cut. ${escapeHtml(loyalty)}</p><a href="${safeBookingLink}" style="display:inline-block;margin-top:12px;background:#45a5ff;color:#07111c;padding:13px 19px;text-decoration:none;font-weight:bold">Book your next chair</a><p style="color:#777d89;font-size:12px;margin-top:28px">Precision cuts. Anytime convenience. · Hamilton, ON</p></div></div>`;
+  const safeGoogleReviewLink = escapeHtml(googleReviewLink);
+  const html = `<div style="margin:0;background:#0b0c10;padding:36px 16px;font-family:Arial,sans-serif;color:#f5f6f8"><div style="max-width:540px;margin:auto;border:1px solid #30333b;padding:32px;background:#121419"><p style="color:#52a8ff;letter-spacing:3px;font-size:11px;font-weight:bold">LET'S GET FADED · HAMILTON</p><h1 style="font-size:26px;margin:20px 0 12px">Good seeing you, ${safeName}.</h1><p style="color:#c2c5ce;line-height:1.7">Thanks for trusting Jay with the cut. ${escapeHtml(loyalty)}</p><a href="${safeBookingLink}" style="display:inline-block;margin-top:12px;background:#45a5ff;color:#07111c;padding:13px 19px;text-decoration:none;font-weight:bold">Book your next chair</a><p style="color:#c2c5ce;line-height:1.7;margin-top:20px">Enjoyed the cut? <a href="${safeGoogleReviewLink}" style="color:#52a8ff;text-decoration:underline">Leave Jay a review on Google</a> — it helps other Hamilton guys find the chair.</p><p style="color:#777d89;font-size:12px;margin-top:28px">Precision cuts. Anytime convenience. · Hamilton, ON · @letsgetfaded</p></div></div>`;
   return sendReminderMessages({ phone: client.phone, email: client.email, sms, subject, html });
 }
